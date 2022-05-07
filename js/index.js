@@ -70,7 +70,7 @@ function init() {
     box2 = createNumBtn('222', [-5, 0.4, 1])
     scene.add(box1)
     scene.add(box2)
-    console.log(box2)
+    // addText(box2)
 
     renderer = new THREE.WebGLRenderer({
         antialias: true
@@ -185,13 +185,33 @@ function onSelectEnd(event) {
         var object = controller.userData.selected;
         object.material.emissive.b = 0;
         group.attach(object);
-        object.visible = false
-        box2.visible = false
+        addText(object)
 
         controller.userData.selected = undefined;
 
     }
 
+}
+
+function addText(val) {
+    var text = JSON.stringify(val)
+    var loader = new THREE.FontLoader();
+
+    loader.load('../fonts/Microsoft_YaHei.json',function (data) {
+        var geometry = new THREE.TextGeometry(text, {
+            font: data,
+            size: 0.05,
+            height: 0.01
+        });
+        var meshMaterial = new THREE.MeshPhongMaterial({
+            color: '#000'
+        });
+        var mesh = new THREE.Mesh(geometry, meshMaterial);
+        mesh.position.set(-4, 0, 8);
+        mesh.rotateY(Math.PI/2)
+        console.log(mesh)
+        scene.add(mesh);
+    })
 }
 
 function getIntersections(controller) {
