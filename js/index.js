@@ -138,12 +138,18 @@ function addSky() {
 function createNumBtn(name, position) {
     var geometry = new THREE.BoxBufferGeometry(0.1, 0.6, 0.6);
     var material = new THREE.MeshBasicMaterial({
-        color: '#303030'
+        color: '#303030',
+        roughness: 0.7,
+        metalness: 0.0
     });
 
     var mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(position[0], position[1], position[2])
     mesh.name = name
+
+    mesh.castShadow = true;
+	mesh.receiveShadow = true;
+
     return mesh
 }
 
@@ -185,33 +191,11 @@ function onSelectEnd(event) {
         var object = controller.userData.selected;
         object.material.emissive.b = 0;
         group.attach(object);
-        addText(object)
 
         controller.userData.selected = undefined;
 
     }
 
-}
-
-function addText(val) {
-    var text = JSON.stringify(val)
-    var loader = new THREE.FontLoader();
-
-    loader.load('../fonts/Microsoft_YaHei.json',function (data) {
-        var geometry = new THREE.TextGeometry(text, {
-            font: data,
-            size: 0.05,
-            height: 0.01
-        });
-        var meshMaterial = new THREE.MeshPhongMaterial({
-            color: '#000'
-        });
-        var mesh = new THREE.Mesh(geometry, meshMaterial);
-        mesh.position.set(-4, 0, 8);
-        mesh.rotateY(Math.PI/2)
-        console.log(mesh)
-        scene.add(mesh);
-    })
 }
 
 function getIntersections(controller) {
@@ -266,7 +250,6 @@ function animate() {
     renderer.setAnimationLoop(render);
 
 }
-var clock = new THREE.Clock();
 
 function render() {
 
@@ -274,14 +257,6 @@ function render() {
 
     intersectObjects(controller1);
     intersectObjects(controller2);
-
-    var delta = clock.getDelta();
-
-    if (mixer !== undefined) {
-
-        mixer.update(delta);
-
-    }
 
     renderer.render(scene, camera);
 
