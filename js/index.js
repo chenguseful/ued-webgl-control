@@ -169,6 +169,8 @@ function onSelectEnd(event) {
     if (controller.userData.selected !== undefined) {
         var object = controller.userData.selected;
         object.material.emissive.b = 0;
+        object.material.transparent = true
+        object.material.opacity = 0.2
         group.attach(object);
         controller.userData.selected = undefined;
     }
