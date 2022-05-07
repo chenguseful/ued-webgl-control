@@ -3,12 +3,6 @@ import {
     OrbitControls
 } from '../plugins/Three/module/jsm/controls/OrbitControls.js';
 import {
-    ColladaLoader
-} from '../plugins/Three/module/jsm/loaders/ColladaLoader.js';
-import {
-    GLTFLoader
-} from '../plugins/Three/module/jsm/loaders/GLTFLoader.js';
-import {
     VRButton
 } from '../plugins/Three/module/jsm/webxr/VRButton.js';
 import {
@@ -24,7 +18,6 @@ var raycaster, intersected = [];
 var tempMatrix = new THREE.Matrix4();
 
 var controls, group;
-var mixer
 
 var box1, box2
 
@@ -68,8 +61,8 @@ function init() {
     addSky()
     box1 = createNumBtn('111', [-5, 0.4, 0])
     box2 = createNumBtn('222', [-5, 0.4, 1])
-    scene.add(box1)
-    scene.add(box2)
+    group.add(box1)
+    group.add(box2)
     // addText(box2)
 
     renderer = new THREE.WebGLRenderer({
@@ -148,116 +141,75 @@ function createNumBtn(name, position) {
     mesh.name = name
 
     mesh.castShadow = true;
-	mesh.receiveShadow = true;
+    mesh.receiveShadow = true;
 
     return mesh
 }
 
 function onWindowResize() {
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-
     renderer.setSize(window.innerWidth, window.innerHeight);
-
 }
 
 function onSelectStart(event) {
-
     var controller = event.target;
-
     var intersections = getIntersections(controller);
-
     if (intersections.length > 0) {
-
         var intersection = intersections[0];
-
         var object = intersection.object;
         object.material.emissive.b = 1;
         controller.attach(object);
-
         controller.userData.selected = object;
-
     }
-
 }
 
 function onSelectEnd(event) {
-
     var controller = event.target;
-
     if (controller.userData.selected !== undefined) {
-
         var object = controller.userData.selected;
         object.material.emissive.b = 0;
         group.attach(object);
-
         controller.userData.selected = undefined;
-
     }
-
 }
 
 function getIntersections(controller) {
-
     tempMatrix.identity().extractRotation(controller.matrixWorld);
-
     raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
     raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
-
     return raycaster.intersectObjects(group.children);
-
 }
 
 function intersectObjects(controller) {
-
     if (controller.userData.selected !== undefined) return;
-
     var line = controller.getObjectByName('line');
     var intersections = getIntersections(controller);
-
     if (intersections.length > 0) {
-
         var intersection = intersections[0];
-
         var object = intersection.object;
         object.material.emissive.r = 1;
         intersected.push(object);
-
         line.scale.z = intersection.distance;
-
     } else {
-
         line.scale.z = 5;
-
     }
-
 }
 
 function cleanIntersected() {
-
     while (intersected.length) {
-
         var object = intersected.pop();
         object.material.emissive.r = 0;
-
     }
-
 }
 
 function animate() {
-
     renderer.setAnimationLoop(render);
-
 }
 
 function render() {
-
     cleanIntersected();
-
     intersectObjects(controller1);
     intersectObjects(controller2);
-
     renderer.render(scene, camera);
-
 }
