@@ -70,6 +70,7 @@ function init() {
     box2 = createNumBtn('222', [-5, 0.4, 1])
     scene.add(box1)
     scene.add(box2)
+    console.log(box2)
 
     renderer = new THREE.WebGLRenderer({
         antialias: true
@@ -185,7 +186,7 @@ function onSelectEnd(event) {
         object.material.emissive.b = 0;
         group.attach(object);
         object.visible = false
-        box2.visible = true
+        box2.visible = false
 
         controller.userData.selected = undefined;
 
