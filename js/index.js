@@ -137,7 +137,7 @@ function addSky() {
 
 function createNumBtn(name, position) {
     var geometry = new THREE.BoxBufferGeometry(0.1, 0.6, 0.6);
-    var material = new THREE.MeshBasicMaterial({
+    var material = new THREE.MeshStandardMaterial({
         color: '#303030',
         roughness: 0.7,
         metalness: 0.0
