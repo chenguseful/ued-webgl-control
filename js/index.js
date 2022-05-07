@@ -164,10 +164,6 @@ function onSelectStart(event) {
         var intersection = intersections[0];
 
         var object = intersection.object;
-        if(object.name == '111') {
-            object.material.transparent = true
-            object.material.opacity = 0.5
-        }
         object.material.emissive.b = 1;
         controller.attach(object);
 
@@ -186,6 +182,10 @@ function onSelectEnd(event) {
         var object = controller.userData.selected;
         object.material.emissive.b = 0;
         group.attach(object);
+        if(object.name == '111') {
+            object.material.transparent = true
+            object.material.opacity = 0.2
+        }
 
         controller.userData.selected = undefined;
 
