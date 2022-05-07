@@ -26,7 +26,7 @@ var tempMatrix = new THREE.Matrix4();
 var controls, group;
 var mixer
 
-
+var box1, box2
 
 init();
 animate();
@@ -66,8 +66,10 @@ function init() {
 
     // 加载场景、模型
     addSky()
-    createNumBtn('111', [-5, 0.4, 0])
-    createNumBtn('222', [-5, 0.4, 1])
+    box1 = createNumBtn('111', [-5, 0.4, 0])
+    box2 = createNumBtn('222', [-5, 0.4, 1])
+    scene.add(box1)
+    scene.add(box2)
 
     renderer = new THREE.WebGLRenderer({
         antialias: true
@@ -141,7 +143,7 @@ function createNumBtn(name, position) {
     var mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(position[0], position[1], position[2])
     mesh.name = name
-    scene.add(mesh)
+    return mesh
 }
 
 function onWindowResize() {
@@ -182,10 +184,8 @@ function onSelectEnd(event) {
         var object = controller.userData.selected;
         object.material.emissive.b = 0;
         group.attach(object);
-        if(object.name == '111') {
-            object.material.transparent = true
-            object.material.opacity = 0.2
-        }
+        object.visible = false
+        box2.visible = true
 
         controller.userData.selected = undefined;
 
