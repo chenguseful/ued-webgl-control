@@ -154,11 +154,10 @@ function onWindowResize() {
 
 function onSelectStart(event) {
     var controller = event.target;
-    var intersections = getIntersections(controller);
+    var intersections = raycaster.intersectObjects(group.children);;
     if (intersections.length > 0) {
         var intersection = intersections[0];
         var object = intersection.object;
-        object.material.emissive.b = 1;
         controller.attach(object);
         controller.userData.selected = object;
     }
@@ -168,7 +167,6 @@ function onSelectEnd(event) {
     var controller = event.target;
     if (controller.userData.selected !== undefined) {
         var object = controller.userData.selected;
-        object.material.emissive.b = 0;
         object.material.transparent = true
         object.material.opacity = 0.2
         group.attach(object);
