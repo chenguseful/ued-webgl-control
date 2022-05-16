@@ -191,6 +191,7 @@ function intersectObjects(controller) {
         var intersection = intersections[0];
         var object = intersection.object;
         object.material.emissive.r = 1;
+        object.scale.set(2, 2, 2)
         intersected.push(object);
         line.scale.z = intersection.distance;
     } else {
@@ -202,6 +203,7 @@ function cleanIntersected() {
     while (intersected.length) {
         var object = intersected.pop();
         object.material.emissive.r = 0;
+        object.scale.set(1, 1, 1)
     }
 }
 
