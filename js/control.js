@@ -152,7 +152,7 @@ function onSelectStart(event) {
     if (intersections.length > 0) {
         var intersection = intersections[0];
         if (selected.length > 0) {
-            selected[0].material.color.r = 48;
+            selected[0].material.color.r = 48 / 255;
             selected = []
         }
         var object = intersection.object;
@@ -169,7 +169,7 @@ function onSelectEnd(event) {
         var object = controller.userData.selected;
         // object.material.emissive.b = 0;
         // object.material.transparent = true
-        object.material.color.r = 255;
+        object.material.color.r = 255 / 255;
         // group.attach(object);
         controller.userData.selected = undefined;
     }
