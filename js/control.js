@@ -156,7 +156,7 @@ function onSelectStart(event) {
             selected = []
         }
         var object = intersection.object;
-        object.material.emissive.b = 1;
+        // object.material.emissive.b = 1;
         selected.push(object)
         // controller.attach(object);
         controller.userData.selected = object;
@@ -167,8 +167,8 @@ function onSelectEnd(event) {
     var controller = event.target;
     if (controller.userData.selected !== undefined) {
         var object = controller.userData.selected;
-        object.material.emissive.b = 0;
-        object.material.transparent = true
+        // object.material.emissive.b = 0;
+        // object.material.transparent = true
         object.material.color.r = 255;
         // group.attach(object);
         controller.userData.selected = undefined;
@@ -189,7 +189,7 @@ function intersectObjects(controller) {
     if (intersections.length > 0) {
         var intersection = intersections[0];
         var object = intersection.object;
-        object.material.emissive.r = 1;
+        // object.material.emissive.r = 1;
         object.scale.set(2, 2, 2)
         intersected.push(object);
         line.scale.z = intersection.distance;
@@ -201,7 +201,7 @@ function intersectObjects(controller) {
 function cleanIntersected() {
     while (intersected.length) {
         var object = intersected.pop();
-        object.material.emissive.r = 0;
+        // object.material.emissive.r = 0;
         object.scale.set(1, 1, 1)
     }
 }
